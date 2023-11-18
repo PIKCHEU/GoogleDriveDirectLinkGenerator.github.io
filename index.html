@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "K2D", sans-serif;
+            background-color: #f8f8f8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 36px;
+            color: #333;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            flex: 1;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            flex: 2;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .output-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .copy-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #copyOutput {
+            flex: 2;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .edit-button,
+        button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #fbca4d;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .edit-button:hover,
+        button:hover {
+            background-color: #fbb63d;
+            transform: scale(1.05);
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            input[type="text"] {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            .edit-button,
+            button {
+                font-size: 16px;
+                margin: 10px 0;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Editor</h1>
+        <div class="input-container">
+            <label for="urlInput">URL การแชร์ของคุณ:</label>
+            <input type="text" id="urlInput" placeholder="ป้อนลิงก์ URL เท่านั้น" />
+        </div>
+        <div class="output-container">
+            <h2>แก้ไขเสร็จสิ้นแล้ว:</h2>
+            <p id="editedURL"></p>
+            <div class="copy-container">
+                <input type="text" id="copyOutput" readonly>
+            </div>
+            <div class="button-container">
+                <button class="edit-button" onclick="editURL()">แก้ไข URL</button>
+                <button onclick="copyToClipboard()">คัดลอก URL</button>
+                <button onclick="refreshURL()">รีเฟรช</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function editURL() {
+            const urlInput = document.getElementById('urlInput').value;
+            const editedURL = urlInput.replace("file/d/", "uc?export=download&id=").replace("/view?usp=sharing", "");
+            document.getElementById('copyOutput').value = editedURL;
+            const button = document.querySelector('button.edit-button');
+            button.classList.add('pulse-animation');
+            setTimeout(() => {
+                button.classList.remove('pulse-animation');
+            }, 1000);
+        }
+
+        function copyToClipboard() {
+            const copyText = document.getElementById('copyOutput');
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            alert('คัดลอก URL แล้ว: ' + copyText.value);
+        }
+
+        function refreshURL() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
